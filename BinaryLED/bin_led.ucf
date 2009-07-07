@@ -1,13 +1,12 @@
-NET "bin<3>" LOC = "N17";
-NET "bin<2>" LOC = "H18";
-NET "bin<1>" LOC = "L14";
-NET "bin<0>" LOC = "L13";
+NET "binary<2>" LOC = "N17";
+NET "binary<1>" LOC = "H18";
+NET "binary<0>" LOC = "L14";
 
-NET "led<0>" LOC = "F9";
-NET "led<1>" LOC = "E9";
-NET "led<2>" LOC = "D11";
-NET "led<3>" LOC = "C11";
-NET "led<4>" LOC = "F11";
-NET "led<5>" LOC = "E11";
-NET "led<6>" LOC = "E12";
-NET "led<7>" LOC = "F12";
+NET "unary<0>" LOC = "F9";
+NET "unary<1>" LOC = "E9";
+NET "unary<2>" LOC = "D11";
+NET "unary<3>" LOC = "C11";
+NET "unary<4>" LOC = "F11";
+NET "unary<5>" LOC = "E11";
+NET "unary<6>" LOC = "E12";
+NET "unary<7>" LOC = "F12";
