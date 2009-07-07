@@ -13,10 +13,9 @@ end bin_count;
 
 architecture bin_count_arch of bin_count is
     signal bin: std_logic_vector(N - 1 downto 0);
-    signal val: std_logic_vector((2 ** N) - 1 downto 0);
 begin
     bled: entity work.bin_led(bin_led_arch)
-        port map(binary => bin, unary => val);
+        port map(binary => bin, unary => count);
 
     process(clk, reset)
     begin
@@ -26,7 +25,5 @@ begin
             bin <= bin + 1;
         end if;
     end process;
-    
-    count <= val;
 end bin_count_arch;
 
