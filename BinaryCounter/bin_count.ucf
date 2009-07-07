@@ -1,13 +1,15 @@
 #NET "clk" TNM = "master_clk";
 #TIMESPEC "TS_clk" = PERIOD "master_clk" 21 ms;
 NET "clk" CLOCK_DEDICATED_ROUTE = FALSE;
-NET "clk" LOC = "N17";
+NET "clk" LOC = "L13";
 
-NET "led<0>" LOC = "F9";
-NET "led<1>" LOC = "E9";
-NET "led<2>" LOC = "D11";
-NET "led<3>" LOC = "C11";
-#NET "led<4>" LOC = "F11";
-#NET "led<5>" LOC = "E11";
-#NET "led<6>" LOC = "E12";
-#NET "led<7>" LOC = "F12";
+NET "reset" LOC = "N17";
+
+NET "count<0>" LOC = "F9";
+NET "count<1>" LOC = "E9";
+NET "count<2>" LOC = "D11";
+NET "count<3>" LOC = "C11";
+NET "count<4>" LOC = "F11";
+NET "count<5>" LOC = "E11";
+NET "count<6>" LOC = "E12";
+NET "count<7>" LOC = "F12";
