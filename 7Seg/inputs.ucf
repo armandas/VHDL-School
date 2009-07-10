@@ -1,0 +1,4 @@
+NET "bcd<3>" LOC = "N17";
+NET "bcd<2>" LOC = "H18";
+NET "bcd<1>" LOC = "L14";
+NET "bcd<0>" LOC = "L13";
