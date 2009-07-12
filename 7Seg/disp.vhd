@@ -21,11 +21,11 @@ architecture disp_arch of disp is
     signal d0, d1, d2, d3: std_logic_vector(7 downto 0);
 begin
 
-    b0 <= bcd + 1;
-    b1 <= bcd + 2;
-    b2 <= bcd + 3;
-    b3 <= bcd + 4;
-    
+    b0 <= bcd + 4;
+    b1 <= bcd + 3;
+    b2 <= bcd + 2;
+    b3 <= bcd + 1;
+
     conv0: entity work.bcd_to_sseg(convert)
         port map(bcd => b0, sseg => d0, dp => '0');
 

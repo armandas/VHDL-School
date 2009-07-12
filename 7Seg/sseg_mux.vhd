@@ -12,7 +12,7 @@ entity sseg_mux is
 end sseg_mux;
 
 architecture mux_arch of sseg_mux is
-    constant N: integer := 18;
+    constant N: integer := 10;
     signal q, q_next: std_logic_vector(N - 1 downto 0);
     signal sel: std_logic_vector(1 downto 0);
 begin
