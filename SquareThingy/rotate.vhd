@@ -14,9 +14,9 @@ end circle;
 
 architecture rotate of circle is
     constant M: integer := 23;
-    signal disp_current, disp_next: std_logic_vector(3 downto 0);
+    signal disp_next: std_logic_vector(3 downto 0);
     signal clock_divider: std_logic_vector(M-1 downto 0);
-    signal counter, counter_next: std_logic_vector(1 downto 0);
+    signal counter, counter_next: std_logic_vector(2 downto 0);
     signal top, top_next: std_logic;
 begin
 
@@ -27,31 +27,28 @@ begin
             if (clock_divider = 0) then
                 counter <= counter_next;
                 disp <= disp_next;
-                disp_current <= disp_next;
                 top <= top_next;
             end if;
         end if;
     end process;
-    
-    -- Square needs to stay on the same display twice when at the ends.
-    counter_next <= counter when (disp_current = disp_next and
-                                  ((disp_next = "0111" and top /= cw) or
-                                   (disp_next = "1110"  and top = cw))) else
-                    counter - '1' when (top = cw) else
-                    counter + '1';
-                    
+
+    counter_next <= counter + 1;
+
+    top_next <= '1' when (counter = "111" and cw = '0') or
+                         (counter = "011" and cw = '1') else
+                '0' when (counter = "111" and cw = '1') or
+                         (counter = "011" and cw = '0') else top;
+
     value <= "01100011" when (top = '1') else "00011101";
     
-    top_next <= (not top) when (counter = counter_next);
-
-    process(counter)
+    process(counter_next)
     begin
-        case counter is
-            when "00" =>
+        case counter_next is
+            when "000" | "111" =>
                 disp_next <= "1110";
-            when "01" =>
+            when "001" | "110" =>
                 disp_next <= "1101";
-            when "10" =>
+            when "010" | "101" =>
                 disp_next <= "1011";
             when others =>
                 disp_next <= "0111";
