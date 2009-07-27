@@ -1,0 +1,9 @@
+Reaction Timer
+
+This module measures how fast a person can react. After a button is pressed,
+LED will turn on after some random time. Player has to push the stop button
+as fast as they can. The result is then shown on 7-segment displays.
+
+Message LOL is displayed if stop is not pressed in a second.
+Message FAIL is displayed if stop is pressed before the LED is on.
+Message HI is displayed if no result is set (i.e. idle mode).
