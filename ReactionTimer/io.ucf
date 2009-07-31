@@ -2,6 +2,8 @@ NET "clk" LOC = "C9";
 NET "clk" TNM_NET = "clk";
 TIMESPEC "TS_clk" = PERIOD "clk" 20 ns;
 
-NET "clear" LOC = "V16"
-NET "start" LOC = "D18"
-NET "stop" LOC = "K17"
+NET "led" LOC = "F12" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 2;
+
+NET "reset" LOC = "H13" | IOSTANDARD = LVTTL | PULLDOWN;
+NET "start" LOC = "D18" | IOSTANDARD = LVTTL | PULLDOWN;
+NET "stop" LOC = "K17" | IOSTANDARD = LVTTL | PULLDOWN;
