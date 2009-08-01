@@ -39,6 +39,7 @@ begin
     begin
         case state is
             when idle =>
+                led <= lol;
                 if start = '1' then
                     state_next <= rand_wait;
                     timer_next <= (others => '0');
@@ -52,7 +53,6 @@ begin
                     lol <= '0';
                     led <= '0';
                 else
-                    state_next <= idle;
                     if lol = '1' then
                         m3 <= "00001110"; -- L
                         m2 <= "01111110"; -- O
@@ -65,57 +65,48 @@ begin
                         m0 <= "00001110"; -- L
                     elsif t > 0 then --and t < 999 then
                         -- need to implement binary-to-bcd converter
-                        m3 <= "01011011"; -- S
-                        m2 <= "00010111"; -- h
-                        m1 <= "00000100"; -- i
-                        m0 <= "00001111"; -- t
+                        m3 <= "11111111";
+                        m2 <= "11111111";
+                        m1 <= "11111111";
+                        m0 <= "11111111";
                     else
-                        m3 <= "01001110"; -- C
-                        m2 <= "00011100"; -- u
-                        m1 <= "00010101"; -- n
-                        m0 <= "00001111"; -- t
-                        --m3 <= "00110111"; -- H
-                        --m2 <= "00000110"; -- I
-                        --m1 <= (others => '0'); -- off
-                        --m0 <= (others => '0'); -- off
+                        m3 <= "00110111"; -- H
+                        m2 <= "00000110"; -- I
+                        m1 <= (others => '0'); -- off
+                        m0 <= (others => '0'); -- off
                     end if;
                 end if;
 
             when rand_wait =>
-                m3 <= "00110111"; -- H
-                m2 <= "00011101"; -- o
-                m1 <= "00110111"; -- H
-                m0 <= "00011101"; -- o
-                --if --stop = '1' then
-                    --fail <= '1';
-                    --state_next <= idle;
-                --else
+                if stop = '1' then
+                    fail <= '1';
+                    state_next <= idle;
+                else
                     -- random waiting happens here
                     --
                     -- if already_random then
                     --     state_next <= count;
                     -- end if;
                     state_next <= count;
-                --end if;
+                end if;
 
             when count =>
                 state_next <= count;
-                m3 <= "00110111"; -- H
-                m2 <= "00011101"; -- o
-                m1 <= "00110111"; -- H
-                m0 <= "00011101"; -- o
                 led <= '1';
+
                 if stop = '1' then
                     state_next <= idle;
+                    led <= '0';
                 else
                     if timer = (MILLISECOND - 1) then
-                        if t = 999 then
+                        --if t = 99 then
+                            led <= '0';
                             lol <= '1';
                             state_next <= idle;
-                        else
-                            t_next <= t + 1;
-                            timer_next <= (others => '0');
-                        end if;
+                        --else
+                            --t_next <= t + 1;
+                            --timer_next <= (others => '0');
+                        --end if;
                     else
                         timer_next <= timer + 1;
                     end if;
