@@ -21,7 +21,7 @@ architecture measure of reaction is
     signal timer, timer_next: std_logic_vector(15 downto 0);
     -- t will be increased when timer reaches 50000 (i.e. 1ms at 50MHz)
     signal t, t_next: std_logic_vector(9 downto 0);
-    signal lol, fail: std_logic;
+    signal lol, lol_next, fail, fail_next: std_logic;
 begin
 
     process(clk, reset)
@@ -32,14 +32,17 @@ begin
             state <= state_next;
             timer <= timer_next;
             t <= t_next;
+            lol <= lol_next;
+            fail <= fail_next;
         end if;
     end process;
 
     process(start, stop, state, timer, t, lol, fail)
     begin
+        state_next <= state;
         case state is
             when idle =>
-                led <= lol;
+                led <= '0';
                 if start = '1' then
                     state_next <= rand_wait;
                     timer_next <= (others => '0');
@@ -49,9 +52,8 @@ begin
                     m2 <= (others => '0');
                     m1 <= (others => '0');
                     m0 <= (others => '0');
-                    fail <= '0';
-                    lol <= '0';
-                    led <= '0';
+                    fail_next <= '0';
+                    lol_next <= '0';
                 else
                     if lol = '1' then
                         m3 <= "00001110"; -- L
@@ -79,7 +81,7 @@ begin
 
             when rand_wait =>
                 if stop = '1' then
-                    fail <= '1';
+                    fail_next <= '1';
                     state_next <= idle;
                 else
                     -- random waiting happens here
@@ -91,22 +93,21 @@ begin
                 end if;
 
             when count =>
-                state_next <= count;
-                led <= '1';
+                led <= '0';
+                m0 <= "00000000";
 
                 if stop = '1' then
                     state_next <= idle;
-                    led <= '0';
                 else
                     if timer = (MILLISECOND - 1) then
-                        --if t = 99 then
-                            led <= '0';
-                            lol <= '1';
+                        led <= '1';
+                        if t = 999 then
+                            lol_next <= '1';
                             state_next <= idle;
-                        --else
-                            --t_next <= t + 1;
-                            --timer_next <= (others => '0');
-                        --end if;
+                        else
+                            t_next <= t + 1;
+                            timer_next <= (others => '0');
+                        end if;
                     else
                         timer_next <= timer + 1;
                     end if;
