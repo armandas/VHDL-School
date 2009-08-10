@@ -1,5 +1,7 @@
 Reaction Timer
 
+CURRENTLY NOT WORKING!
+
 This module measures how fast a person can react. After a button is pressed,
 LED will turn on after some random time. Player has to push the stop button
 as fast as they can. The result is then shown on 7-segment displays.
