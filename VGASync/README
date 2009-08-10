@@ -1,0 +1,11 @@
+The vga_sync module does all the synchronization work. Default settings are:
+640x480 @ 60Hz.
+
+Timing values are taken from http://martin.hinner.info/vga/timing.html
+
+The vga_test module shows:
+    1px white border (outer)
+    1px black border (inner)
+    6 colours (rest of the area)
+
+Colours from left to right are: blue, green, cyan, red, magenta, yellow.
