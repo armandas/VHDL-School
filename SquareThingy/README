@@ -1,6 +1,4 @@
 The Rotating Square
 
-CURRENTY NOT WORKING.
-
 This project uses four seven segment displays to show a small rotating square.
 The direction of rotation can be set using a cw input.
