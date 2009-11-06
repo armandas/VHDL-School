@@ -5,18 +5,17 @@ use ieee.std_logic_unsigned.all;
 entity sounds is
     port(
         clk, reset: in std_logic;
-        value: in std_logic_vector(3 downto 0);
+        enable: in std_logic;
+        period: in std_logic_vector(18 downto 0);
         speaker: out std_logic
     );
 end sounds;
 
-architecture make of sounds is
-    signal counter, counter_next, limit: std_logic_vector(18 downto 0);
+architecture generator of sounds is
+    signal counter, counter_next: std_logic_vector(18 downto 0);
+    signal pulse_width: std_logic_vector(17 downto 0);
 begin
-    -- MSBs are used to determine the o/p frequency
-    limit <= value & "111111111111111";
-
-    process(clk)
+    process(clk, reset)
     begin
         if reset = '1' then
             counter <= (others => '0');
@@ -25,7 +24,10 @@ begin
         end if;
     end process;
 
-    counter_next <= (others => '0') when counter = limit else
+    -- 50% duty cycle
+    pulse_width <= period(18 downto 1);
+
+    counter_next <= (others => '0') when counter = period else
                     counter + 1;
-    speaker <= '1' when counter < 8000 else '0';
-end make;
+    speaker <= '1' when (enable = '1' and counter < pulse_width) else '0';
+end generator;

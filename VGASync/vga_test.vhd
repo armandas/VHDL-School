@@ -34,14 +34,10 @@ begin
     end process;
 
     -- draws a white/black border and then selects a colour
-    rgb_next <= "111" when px_x = 0 or
-                           px_x = 639 or
-                           px_y = 0 or
-                           px_y = 479 else
-                "000" when px_x = 1 or
-                           px_x = 638 or
-                           px_y = 1 or
-                           px_y = 478 else
+    rgb_next <= "111" when px_x = 0 or px_x = 639 or
+                           px_y = 0 or px_y = 479 else
+                "000" when px_x = 1 or px_x = 638 or
+                           px_y = 1 or px_y = 478 else
                 colour;
 
     -- changes the colour accorging to x position

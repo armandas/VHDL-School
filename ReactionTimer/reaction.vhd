@@ -39,81 +39,20 @@ begin
 
     process(start, stop, state, timer, t, lol, fail)
     begin
-        state_next <= state;
-        case state is
-            when idle =>
-                led <= '0';
-                if start = '1' then
-                    state_next <= rand_wait;
-                    timer_next <= (others => '0');
-                    t_next <= (others => '0');
-                    -- clear stuff
-                    m3 <= (others => '0');
-                    m2 <= (others => '0');
-                    m1 <= (others => '0');
-                    m0 <= (others => '0');
-                    fail_next <= '0';
-                    lol_next <= '0';
-                else
-                    if lol = '1' then
-                        m3 <= "00001110"; -- L
-                        m2 <= "01111110"; -- O
-                        m1 <= "00001110"; -- L
-                        m0 <= (others => '0'); -- off
-                    elsif fail = '1' then
-                        m3 <= "01000111"; -- F
-                        m2 <= "01110111"; -- A
-                        m1 <= "00000110"; -- I
-                        m0 <= "00001110"; -- L
-                    elsif t > 0 then --and t < 999 then
-                        -- need to implement binary-to-bcd converter
-                        m3 <= "11111111";
-                        m2 <= "11111111";
-                        m1 <= "11111111";
-                        m0 <= "11111111";
-                    else
-                        m3 <= "00110111"; -- H
-                        m2 <= "00000110"; -- I
-                        m1 <= (others => '0'); -- off
-                        m0 <= (others => '0'); -- off
-                    end if;
-                end if;
-
-            when rand_wait =>
-                if stop = '1' then
-                    fail_next <= '1';
-                    state_next <= idle;
-                else
-                    -- random waiting happens here
-                    --
-                    -- if already_random then
-                    --     state_next <= count;
-                    -- end if;
-                    state_next <= count;
-                end if;
-
-            when count =>
-                led <= '0';
-                m0 <= "00000000";
-
-                if stop = '1' then
-                    state_next <= idle;
-                else
-                    if timer = (MILLISECOND - 1) then
-                        led <= '1';
-                        if t = 999 then
-                            lol_next <= '1';
-                            state_next <= idle;
-                        else
-                            t_next <= t + 1;
-                            timer_next <= (others => '0');
-                        end if;
-                    else
-                        timer_next <= timer + 1;
-                    end if;
-                end if;
-        end case;
-
+        led <= '0';
+        if timer = (MILLISECOND - 1) then
+            if t = 999 then
+                --led <= '1';
+                lol_next <= '1';
+                state_next <= idle;
+            else
+                t_next <= t + 1;
+                timer_next <= (others => '0');
+            end if;
+        else
+            timer_next <= timer + 1;
+            led <= '1';
+        end if;
     end process;
 
     disp: entity work.sseg_mux(mux_arch)

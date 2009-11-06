@@ -2,9 +2,11 @@ NET "clk" LOC = "C9";
 NET "clk" TNM_NET = "clk";
 TIMESPEC "TS_clk" = PERIOD "clk" 20 ns;
 
-NET "value<3>" LOC = "N17" | IOSTANDARD = LVTTL | PULLUP;  
-NET "value<2>" LOC = "H18" | IOSTANDARD = LVTTL | PULLUP;
-NET "value<1>" LOC = "L14" | IOSTANDARD = LVTTL | PULLUP;
-NET "value<0>" LOC = "L13" | IOSTANDARD = LVTTL | PULLUP;
+NET "speaker" LOC = "A10" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8;
 
-NET "speaker" LOC = "A10" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 24;
+
+NET "start" LOC = "K17" | IOSTANDARD = LVTTL | PULLDOWN;
+
+#NET "pitch<0>" LOC = "L13" | IOSTANDARD = LVTTL | PULLUP;
+#NET "pitch<1>" LOC = "L14" | IOSTANDARD = LVTTL | PULLUP;
+#NET "pitch<2>" LOC = "H18" | IOSTANDARD = LVTTL | PULLUP;

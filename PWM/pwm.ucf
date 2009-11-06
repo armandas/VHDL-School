@@ -7,11 +7,13 @@ NET "btn<2>" LOC = "H18";
 NET "btn<1>" LOC = "L14";
 NET "btn<0>" LOC = "L13";
 
-NET "led<0>" LOC = "F9";
-NET "led<1>" LOC = "E9";
-NET "led<2>" LOC = "D11";
-NET "led<3>" LOC = "C11";
-NET "led<4>" LOC = "F11";
-NET "led<5>" LOC = "E11";
-NET "led<6>" LOC = "E12";
-NET "led<7>" LOC = "F12";
+NET "speaker" LOC = "F7";
+
+#NET "led<0>" LOC = "F9";
+#NET "led<1>" LOC = "E9";
+#NET "led<2>" LOC = "D11";
+#NET "led<3>" LOC = "C11";
+#NET "led<4>" LOC = "F11";
+#NET "led<5>" LOC = "E11";
+#NET "led<6>" LOC = "E12";
+#NET "led<7>" LOC = "F12";

@@ -6,7 +6,8 @@ entity pwm_test is
     port(
         clk: in std_logic;
         btn: in std_logic_vector(3 downto 0);
-        led: out std_logic_vector(7 downto 0)
+        speaker: out std_logic
+        --led: out std_logic_vector(7 downto 0)
     );
 end pwm_test;
 
@@ -16,5 +17,5 @@ begin
     pwm0: entity work.pwm(pwm_arch)
         port map(clk => clk, value => btn, output => pwm_val);
 
-    led <= (others => pwm_val);
+    speaker <= pwm_val;--(others => pwm_val);
 end test;
