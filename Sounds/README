@@ -1,0 +1,4 @@
+Sound generation circuit.
+
+Currently uses a fixed set of frequencies in range 110-7040Hz, but may be changed to use a rom with more frequency values.
+Two test sounds are added for use in player.vhd
