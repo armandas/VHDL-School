@@ -4,9 +4,10 @@ TIMESPEC "TS_clk" = PERIOD "clk" 20 ns;
 
 NET "speaker" LOC = "A10" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8;
 
+NET "led" LOC = "F12" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8;
 
 NET "start" LOC = "K17" | IOSTANDARD = LVTTL | PULLDOWN;
 
-#NET "pitch<0>" LOC = "L13" | IOSTANDARD = LVTTL | PULLUP;
-#NET "pitch<1>" LOC = "L14" | IOSTANDARD = LVTTL | PULLUP;
-#NET "pitch<2>" LOC = "H18" | IOSTANDARD = LVTTL | PULLUP;
+NET "tune_number<0>" LOC = "L13" | IOSTANDARD = LVTTL | PULLUP;
+NET "tune_number<1>" LOC = "L14" | IOSTANDARD = LVTTL | PULLUP;
+NET "tune_number<2>" LOC = "H18" | IOSTANDARD = LVTTL | PULLUP;
