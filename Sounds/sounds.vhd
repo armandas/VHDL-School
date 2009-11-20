@@ -7,6 +7,7 @@ entity sounds is
         clk, reset: in std_logic;
         enable: in std_logic;
         period: in std_logic_vector(18 downto 0);
+        volume: in std_logic_vector(2 downto 0);
         speaker: out std_logic
     );
 end sounds;
@@ -24,8 +25,11 @@ begin
         end if;
     end process;
 
-    -- 50% duty cycle
-    pulse_width <= period(18 downto 1);
+    -- duty cycle:
+    --    max:   50% (18 downto 1)
+    --    min: 0.78% (18 downto 7)
+    --    off when given 0 (18 downto 0)!
+    pulse_width <= period(18 downto conv_integer(volume));
 
     counter_next <= (others => '0') when counter = period else
                     counter + 1;
