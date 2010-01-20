@@ -1,0 +1,9 @@
+Inteface for communication with NES controller
+
+This unit generates a 1kHz clock for a controller. Also, a Parallel/Serial
+control (PS) signal is generated (125Hz). After PS, the shift register in the 
+gamepad will shift out data bits. These bits are read by the FPGA and then
+provided at the output as parallel data.
+
+NOTE: a special adapter board is used, since NES cotrollers operate at 5V and
+Xilinx Spartan 3E board operates at 3.3V
