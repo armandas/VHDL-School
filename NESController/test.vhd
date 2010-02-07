@@ -19,6 +19,9 @@ architecture behaviour of test is
     type states is (start, count);
     signal state, state_next: states;
 
+    signal clk_out_1, clk_out_2: std_logic;
+    signal ps_control_1, ps_control_2: std_logic;
+
     signal nes1_a, nes2_a, nes1_b, nes2_b,
            nes1_select, nes2_select, nes1_start, nes2_start,
            nes1_up, nes2_up, nes1_down, nes2_down,
@@ -41,7 +44,7 @@ begin
         end if;
     end process;
 
-    process(state, state_next,
+    data_hold: process(state, state_next,
             register_1, register_2, reg_buf,
             counter)
     begin
@@ -65,21 +68,34 @@ begin
         end case;
     end process;
 
-    NES_controllers:
+    -- my board uses same clk and p/s signals for both controllers
+    clk_out <= clk_out_1 and clk_out_2;
+    ps_control <= ps_control_1 and ps_control_2;
+
+    NES_1:
         entity work.controller(arch)
         port map(
             clk => clk, reset => reset,
-            data_1 => data_1, data_2 => data_2,
-            clk_out => clk_out,
-            ps_control => ps_control,
-            gamepad1(0) => nes1_a,      gamepad1(1) => nes1_b,
-            gamepad1(2) => nes1_select, gamepad1(3) => nes1_start,
-            gamepad1(4) => nes1_up,     gamepad1(5) => nes1_down,
-            gamepad1(6) => nes1_left,   gamepad1(7) => nes1_right,
-            gamepad2(0) => nes2_a,      gamepad2(1) => nes2_b,
-            gamepad2(2) => nes2_select, gamepad2(3) => nes2_start,
-            gamepad2(4) => nes2_up,     gamepad2(5) => nes2_down,
-            gamepad2(6) => nes2_left,   gamepad2(7) => nes2_right
+            data_in => data_1,
+            clk_out => clk_out_1,
+            ps_control => ps_control_1,
+            gamepad(0) => nes1_a,      gamepad(1) => nes1_b,
+            gamepad(2) => nes1_select, gamepad(3) => nes1_start,
+            gamepad(4) => nes1_up,     gamepad(5) => nes1_down,
+            gamepad(6) => nes1_left,   gamepad(7) => nes1_right
+        );
+
+    NES_2:
+        entity work.controller(arch)
+        port map(
+            clk => clk, reset => reset,
+            data_in => data_2,
+            clk_out => clk_out_2,
+            ps_control => ps_control_2,
+            gamepad(0) => nes2_a,      gamepad(1) => nes2_b,
+            gamepad(2) => nes2_select, gamepad(3) => nes2_start,
+            gamepad(4) => nes2_up,     gamepad(5) => nes2_down,
+            gamepad(6) => nes2_left,   gamepad(7) => nes2_right
         );
 
     register_1 <= nes1_a & nes1_b &

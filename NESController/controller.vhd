@@ -5,10 +5,10 @@ use ieee.std_logic_unsigned.all;
 entity controller is
     port(
         clk, reset: in std_logic;
-        data_1, data_2: in std_logic;
+        data_in: in std_logic;
         clk_out: out std_logic;
         ps_control: out std_logic;
-        gamepad1, gamepad2: out std_logic_vector(7 downto 0)
+        gamepad: out std_logic_vector(7 downto 0)
     );
 end controller;
  
@@ -23,7 +23,6 @@ architecture arch of controller is
     signal ps_counter, ps_counter_next: std_logic_vector(3 downto 0);
  
     signal register_1, register_1_next: std_logic_vector(7 downto 0);
-    signal register_2, register_2_next: std_logic_vector(7 downto 0);
 begin
     process(clk, reset)
     begin
@@ -32,13 +31,11 @@ begin
             quad_counter <= (others => '0');
             ps_counter <= (others => '0');
             register_1 <= (others => '1');
-            register_2 <= (others => '1');
         elsif falling_edge(clk) then
             counter <= counter_next;
             quad_counter <= quad_counter_next;
             ps_counter <= ps_counter_next;
             register_1 <= register_1_next;
-            register_2 <= register_2_next;
         end if;
     end process;
  
@@ -53,27 +50,17 @@ begin
                        (ps_counter + 1) when (quad_counter = 1 and
                                               counter = 0) else ps_counter;
  
-    register_1_next(0) <= data_1 when (ps_counter = 0 and quad_counter = 1) else register_1(0);
-    register_1_next(1) <= data_1 when (ps_counter = 1 and quad_counter = 1) else register_1(1);
-    register_1_next(2) <= data_1 when (ps_counter = 2 and quad_counter = 1) else register_1(2);
-    register_1_next(3) <= data_1 when (ps_counter = 3 and quad_counter = 1) else register_1(3);
-    register_1_next(4) <= data_1 when (ps_counter = 4 and quad_counter = 1) else register_1(4);
-    register_1_next(5) <= data_1 when (ps_counter = 5 and quad_counter = 1) else register_1(5);
-    register_1_next(6) <= data_1 when (ps_counter = 6 and quad_counter = 1) else register_1(6);
-    register_1_next(7) <= data_1 when (ps_counter = 7 and quad_counter = 1) else register_1(7);
- 
-    register_2_next(0) <= data_2 when (ps_counter = 0 and quad_counter = 1) else register_2(0);
-    register_2_next(1) <= data_2 when (ps_counter = 1 and quad_counter = 1) else register_2(1);
-    register_2_next(2) <= data_2 when (ps_counter = 2 and quad_counter = 1) else register_2(2);
-    register_2_next(3) <= data_2 when (ps_counter = 3 and quad_counter = 1) else register_2(3);
-    register_2_next(4) <= data_2 when (ps_counter = 4 and quad_counter = 1) else register_2(4);
-    register_2_next(5) <= data_2 when (ps_counter = 5 and quad_counter = 1) else register_2(5);
-    register_2_next(6) <= data_2 when (ps_counter = 6 and quad_counter = 1) else register_2(6);
-    register_2_next(7) <= data_2 when (ps_counter = 7 and quad_counter = 1) else register_2(7);
+    register_1_next(0) <= data_in when (ps_counter = 0 and quad_counter = 1) else register_1(0);
+    register_1_next(1) <= data_in when (ps_counter = 1 and quad_counter = 1) else register_1(1);
+    register_1_next(2) <= data_in when (ps_counter = 2 and quad_counter = 1) else register_1(2);
+    register_1_next(3) <= data_in when (ps_counter = 3 and quad_counter = 1) else register_1(3);
+    register_1_next(4) <= data_in when (ps_counter = 4 and quad_counter = 1) else register_1(4);
+    register_1_next(5) <= data_in when (ps_counter = 5 and quad_counter = 1) else register_1(5);
+    register_1_next(6) <= data_in when (ps_counter = 6 and quad_counter = 1) else register_1(6);
+    register_1_next(7) <= data_in when (ps_counter = 7 and quad_counter = 1) else register_1(7);
 
     -- outputs pulses of one clock cycle length at a rate of 100Hz
-    gamepad1 <= (not register_1) when (ps_counter = 8 and counter = 0) else (others => '0');
-    gamepad2 <= (not register_2) when (ps_counter = 8 and counter = 0) else (others => '0');
+    gamepad <= (not register_1) when (ps_counter = 8 and counter = 0) else (others => '0');
  
     clk_out <= (not quad_counter(1));
     ps_control <= (not quad_counter(1)) when ps_counter = 8 else '1';
