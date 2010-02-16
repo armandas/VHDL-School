@@ -12,17 +12,14 @@ entity test_bin2bcd is
 end test_bin2bcd;
 
 architecture behaviour of test_bin2bcd is
-    signal binary: std_logic_vector(16 downto 0);
+    constant NUMBER: integer := 65535;
+
+    signal binary: std_logic_vector(15 downto 0);
 
     signal bcd0, bcd1, bcd2, bcd3, bcd4: std_logic_vector(3 downto 0);
 begin
 
-    process(clk, reset)
-    begin
-        if reset = '1' then
-            binary <= conv_std_logic_vector(123, 17);
-        end if;
-    end process;
+    binary <= conv_std_logic_vector(NUMBER, 16);
 
     converter:
     entity work.bin2bcd(behaviour)

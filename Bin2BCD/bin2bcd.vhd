@@ -5,7 +5,7 @@ use ieee.std_logic_unsigned.all;
 entity bin2bcd is
     port(
         clk, reset: in std_logic;
-        binary_in: in std_logic_vector(16 downto 0);
+        binary_in: in std_logic_vector(15 downto 0);
         bcd0, bcd1, bcd2, bcd3, bcd4: out std_logic_vector(3 downto 0)
     );
 end bin2bcd;
@@ -14,7 +14,7 @@ architecture behaviour of bin2bcd is
     type states is (start, shift, done);
     signal state, state_next: states;
 
-    signal binary, binary_next: std_logic_vector(16 downto 0);
+    signal binary, binary_next: std_logic_vector(15 downto 0);
     signal bcds, bcds_reg, bcds_next: std_logic_vector(19 downto 0);
     -- output register keep output constant during conversion
     signal bcds_out_reg, bcds_out_reg_next: std_logic_vector(19 downto 0);
@@ -39,7 +39,7 @@ begin
     process(state, binary, binary_in, bcds, bcds_reg)
     begin
         state_next <= state;
-        bcds_next <= bcds_reg;
+        bcds_next <= bcds;
         binary_next <= binary;
     
         case state is
@@ -51,8 +51,8 @@ begin
                 if binary = 0 then
                     state_next <= done;
                 else
-                    binary_next <= binary(15 downto 0) & '0';
-                    bcds_next <= bcds_reg(18 downto 0) & binary(16);
+                    binary_next <= binary(14 downto 0) & '0';
+                    bcds_next <= bcds_reg(18 downto 0) & binary(15);
                 end if;
             when done =>
                 state_next <= start;
