@@ -22,14 +22,15 @@ begin
     binary <= conv_std_logic_vector(NUMBER, 16);
 
     converter:
-    entity work.bin2bcd(behaviour)
-    port map(
-        clk => clk, reset => reset,
-        binary_in => binary,
-        bcd0 => bcd0, bcd1 => bcd1,
-        bcd2 => bcd2, bcd3 => bcd3,
-        bcd4 => bcd4
-    );
+        entity work.bin2bcd(behaviour)
+            generic map(N_BIN => 16)
+            port map(
+                clk => clk, reset => reset,
+                binary_in => binary,
+                bcd0 => bcd0, bcd1 => bcd1,
+                bcd2 => bcd2, bcd3 => bcd3,
+                bcd4 => bcd4
+            );
 
     with switch select
         led <= bcd0 when "0000",
