@@ -1,6 +1,7 @@
 The vga_sync module does all the synchronization work. Default settings are:
 640x480 @ 60Hz.
 
+Taken from "FPGA prototyping by VHDL examples" by P. Chu.
 Timing values are taken from http://martin.hinner.info/vga/timing.html
 
 The vga_test module shows:
